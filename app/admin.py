@@ -84,7 +84,7 @@ def add_lecturer():
         qual = req["qual"]
         image = req["image"]
         
-        mongo.db.staff.insert_one({"staff_number": staff_no, "title": title, "first_name": f_name, "middle_name": m_name, "last_name": l_name, "email": email, "position": postition, "date_of_birth": dob, "state": state, "res_addr": res_addr, "gender": gender, "phone_number": phone_no, "qualification": qual, "image": image})
+        mongo.db.staff.insert_one({"staff_number": staff_no, "title": title, "first_name": f_name, "middle_name": m_name, "last_name": l_name, "email": email, "position": position, "date_of_birth": dob, "state": state, "res_addr": res_addr, "gender": gender, "phone_number": phone_no, "qualification": qual, "image": image})
         
         return redirect(url_for("admin_dashboardd"))
         
@@ -139,10 +139,10 @@ def edit_found_pets():
 def all_added_staff():
     return render_template("admin/all_added_staff.html")
 
-@app.route("/all-found-pets")
+@app.route("/all-pets-found")
 @login_required
-def all_found_pets():
-    return render_template("admin/all_found_pets.html")
+def all_pets_found():
+    return render_template("admin/all_pets_found.html")
 
 @app.route("/all-lecturer-view")
 def all_lecturer_view():

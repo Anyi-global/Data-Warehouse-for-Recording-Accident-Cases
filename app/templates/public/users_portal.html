@@ -9,10 +9,10 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="/" class="logo d-flex align-items-center">
-        <!-- <img src="{{ url_for('static', filename='img/fuo logo1.png') }}" alt="FUO Logo"> -->
-        <span class="d-none d-lg-block" style="font-family: 'Times New Roman', Times, serif; font-size: 30px; color: rgb(130, 171, 190);">Pet<span style="font-family: 'Times New Roman', Times, serif; font-style: italic;">Finder</span></span>
+        <img src="{{ url_for('static', filename='img/database-symbol.png') }}" alt="FUO Logo" style="height: 70px; width: 70px;">
+        <!-- <span class="d-none d-lg-block" style="font-family: 'Times New Roman', Times, serif; font-size: 30px; color: rgb(130, 171, 190);">Pet<span style="font-family: 'Times New Roman', Times, serif; font-style: italic;">Finder</span></span> -->
       </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
+      <i class="bi bi-list toggle-sidebar-btn text-white"></i>
     </div><!-- End Logo -->
 
     <div class="search-bar">
@@ -25,12 +25,12 @@
     <nav class="header-nav ms-auto">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="{{ url_for('static', filename='img/avatar.png') }}" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Abiye Julius</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2 text-white">Godsgift Michael</span>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Abiye Julius</h6>
+              <h6>Godsgift Michael</h6>
               <span>Web Designer</span>
             </li>
             <li>
@@ -88,13 +88,13 @@
       <ul class="sidebar-nav" id="sidebar-nav">
   
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('students_dashboard') }}">
+          <a class="nav-link" href="{{ url_for('users_dashboard') }}">
             <i class="bi bi-grid-fill"></i>
             <span>Dashboard</span>
           </a>
         </li><!-- End Dashboard Nav -->
   
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-person-fill"></i><span>Profile</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
@@ -105,31 +105,17 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li> -->
         <!-- End Components Nav -->
   
         <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-            <i class="fas fa-dog"></i><span>Find Your Pet</span><i class="bi bi-chevron-down ms-auto"></i>
-          </a>
-          <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-              <a href="/add-missing-pet">
-                <i class="fas fa-dog"></i><span>Report Missing Pets</span>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <!-- End Forms Nav -->
-  
-        <li class="nav-item">
           <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-            <i class="fas fa-cat"></i><span>Found Pets</span><i class="bi bi-chevron-down ms-auto"></i>
+            <i class="fas fa-table"></i><span>Retrieve Accident Data</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
           <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li>
-              <a href="/all-pets-found">
-                <i class="fas fa-cat"></i><span>All Found Pets</span>
+              <a href="/query_datawh">
+                <i class="fas fa-cat"></i><span>Retrieve Accident Data</span>
               </a>
             </li>
           </ul>
@@ -145,14 +131,13 @@
       </ul>
     </aside><!-- End Sidebar-->
 
-
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Users Panel</h1>
+      <h1>Users Dashboard</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{{ url_for('students_dashboard') }}"><i class="bi bi-house-fill"></i><span>Home</span></a></li>
+          <li class="breadcrumb-item"><a href="{{ url_for('users_dashboard') }}"><i class="bi bi-house-fill"></i><span>Home</span></a></li>
           <li class="breadcrumb-item">Dashboard</li>
           <!-- <li class="breadcrumb-item active">Edit Staff</li> -->
         </ol>
@@ -195,101 +180,23 @@
               {% endwith %}
           </div>
       </div>
-  </div>
+    </div>
 
-    <section class="section dashboard">
-      <div class="row">
-
-        <!-- Left side columns -->
-        <div class="col-lg-12">
-          <div class="row">
-            <div class="card">
-              <div class="card-body">
-                <h2 class="card-title text-center fw-bold">WELCOME, <span>{{ session.user.username.title() }}</span></h2>
-                <hr>
-                <p class="card-text"><h6 class="fw-bold">Username:</h6> {{ session.user.username.title() }}</p>
-                <hr>
-                <hr>
-                <p><h6 class="fw-bold">Email:</h6> {{ session.user.email }}</p>
-                <hr>
-                <hr>
-                <a href="/student-profile" class="btn btn-primary text-white"><i class="bi bi-pencil p-2"></i>Edit Profile</a>
-              </div>
-            </div>
-
-            <div class="card mt-3">
-              <div class="card-body m-3">
-                <p class="card-text">Dear <strong><em>{{ session.user.username.title() }}</em></strong>, Find your missing pets using the options in the <em><strong>left pane</strong></em></p>
-              </div>
-            </div>
-
-          </div>
-        </div>
+    <h3 class="card-title text-center fw-bold">WELCOME, <span>{{ session.user.username.title() }}!</span> Upload Files Below...</h3>
+    <hr>
+    <div class="container1">
+      <h1 class="text-center">Upload File</h1>
+      <h6>(Allowed Extension: .xlsx)</h6>
+      <div class="dropzone" id="dropzone">
+          <i class="fas fa-upload"></i>
+          <div>Drag and drop files here or click to browse</div>
       </div>
-
-      <!-- Recent Sales -->
-      <div class="col-12">
-        <div class="card recent-sales overflow-auto mt-3">
-          <div class="card-body">
-            <h5 class="card-title" style="font-weight: 700; font-family: 'Times New Roman', Times, serif; padding-bottom: 0px;">All Your Reported Missing Pets</h5>
-            <hr>
-            <div style="overflow-x: auto;">
-              <table class="table table-bordered table-striped table-hover table-checkable table-scrollable datatable">
-                <thead>
-                  <tr>
-                   
-                    <th scope="col">Pet Id</th>
-                    <th scope="col">Owner's Name</th>
-                    <th scope="col">Owner's Email</th>
-                    <th scope="col">Owner's Phone Number</th>
-                    <th scope="col">Pet Name</th>
-                    <th scope="col">Pet Color</th>
-                    <th scope="col">Pet Type</th>
-                    <th scope="col">Gender</th>
-                    <th scope="col">Pet Age</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row"><a href="#" class="text-primary">1001</a></th>
-                    <td class="text-primary">David</td>
-                    <td><a href="#" class="text-primary">juliusabiye@gmail.com</a></td>
-                    <td class="text-primary">08123456789</td>
-                    <td><span class="text-primary">Osama</span></td>
-                    <td><span class="text-primary">White</span></td>
-                    <td class="text-primary">Dog</td>
-                    <td><span class="text-primary">Male</span></td>
-                    <td><span class="text-primary">2 years</span></td>
-                    <td><a href="#" class="btn btn-primary btn-xxs"><i class="bi bi-pencil"></i></a><br>
-                    <button class="btn btn-danger btn-xxs"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row"><a href="#" class="text-primary">1005</a></th>
-                    <td class="text-primary">David</td>
-                    <td><a href="#" class="text-primary">juliusabiye@gmail.com</a></td>
-                    <td class="text-primary">08123456789</td>
-                    <td><span class="text-primary">Bull</span></td>
-                    <td><span class="text-primary">Dark Brown</span></td>
-                    <td class="text-primary">Dog</td>
-                    <td><span class="text-primary">Male</span></td>
-                    <td><span class="text-primary">3 years</span></td>
-                    <td><a href="#" class="btn btn-primary btn-xxs"><i class="bi bi-pencil"></i></a><br>
-                    <button class="btn btn-danger btn-xxs"><i class="bi bi-trash"></i></button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-          </div>
-
-          </div>
-
-        </div>
+      <input type="file" id="fileInput" multiple style="display: none;">
+      <div class="upload-history">
+        <h3>Upload History</h3>
+        <ul id="uploadHistory"></ul>
       </div>
-      <!-- End Recent Sales -->
-
-    </section>
+    </div>
 
   </main>
   <!-- End #main -->

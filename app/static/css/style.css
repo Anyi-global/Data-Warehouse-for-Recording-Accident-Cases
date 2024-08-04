@@ -10,7 +10,7 @@
 --------------------------------------------------------------*/
 body {
   font-family: "Open Sans", sans-serif;
-  color: #444444;
+  color: #0e0d0d;
 }
 
 a {
@@ -120,7 +120,7 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 997;
   padding: 15px 0;
   border-bottom: 1px solid #e6f2fb;
-  background-color: rgb(46, 136, 46);
+  background-color: rgb(4, 76, 107);
 }
 #header.header-scrolled {
   border-color: #fff;
@@ -354,7 +354,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   height: 100vh;
   position: relative;
-  background: url("../img/pets.jpg") top center;
+  background: url("../img/database-symbol.png") top center;
   background-size: cover;
   position: relative;
 }
@@ -372,7 +372,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 #hero h1 {
   margin: 0;
-  font-size: 56px;
+  font-size: 45px;
   font-weight: 700;
   line-height: 72px;
   color: rgb(90, 81, 177);

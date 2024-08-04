@@ -16,7 +16,7 @@ app.config.from_object(app_settings)
 
 
 #connecting to database
-MONGO_URI = "mongodb+srv://fabulous95:Skyview95.ii@cluster0.nz9zg.mongodb.net/PetFinder?retryWrites=true&w=majority"
+MONGO_URI = "mongodb+srv://fabulous95:Skyview95.ii@cluster0.nz9zg.mongodb.net/MissingPetsLocator?retryWrites=true&w=majority"
 
 #initializing PyMongo
 mongo = PyMongo(app, MONGO_URI)

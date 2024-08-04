@@ -1,21 +1,13 @@
 from app import app, mongo
-
-from flask import render_template, request, url_for, redirect, flash, session
-
+from flask import render_template, request, url_for, redirect, flash, session, jsonify
 from werkzeug.utils import secure_filename
-
 from flask import send_from_directory, abort
-
 from flask_mongoengine import MongoEngine
-
+from flask_mail import Mail, Message
 import bson.binary
-
 import urllib.request
-
 import os, re
-
 import datetime
-
 from functools import wraps
 
 # app.config = os.urandom(24)
@@ -31,9 +23,23 @@ app.config["SECRET_KEY"] = "b'n\x1d\xb1\x8a\xc0Jg\x1d\x08|!F3\x04P\xbf'"
 # db = MongoEngine()
 # db.init_app(app)
 
-app.config["UPLOAD_FOLDER"] = "D:/CSI FYP Works/Julius's work/Pet finding app/app/static/uploads"
-app.config["ALLOWED_EXTENSIONS"] = ["TXT", "DOC", "PNG", "JPG", "JPEG", "GIF"]
+# Flask Configuration
+app.config["UPLOAD_FOLDER"] = "C:/CSI FYP Works/FYP 2024 Set/Godsgift Project Work/DWH App/app/static/uploads"
+app.config["ALLOWED_EXTENSIONS"] = ["XLSX"]
 app.config["CLIENT_IMAGES"] = "/Users/Anyiglobal/Desktop/MyProject/app/static/img/clients"
+
+# Flask-Mail configuration
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # or your email provider's SMTP server
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'ikeifeanyi95.ii@gmail.com'
+app.config['MAIL_PASSWORD'] = 'ccpm wmdz fkdd pfwf'
+app.config['MAIL_DEFAULT_SENDER'] = 'ikeifeanyi95.ii@gmail.com'
+
+mail = Mail(app)
+
+if not os.path.exists(app.config["UPLOAD_FOLDER"]):
+    os.makedirs(app.config["UPLOAD_FOLDER"])
 
 def nigerian_time():
     now = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
@@ -71,42 +77,15 @@ def index():
 def register():
     return render_template("public/register.html")
 
-@app.route("/students/dashboard")
+@app.route("/users/dashboard")
 @login_required
-def students_dashboard():
-    return render_template("public/students_portal.html")
+def users_dashboard():
+    return render_template("public/users_portal.html")
 
-@app.route("/add-missing-pet", methods=['GET', 'POST'])
+@app.route("/query_datawh")
 @login_required
-def add_missing_pet():
-    if request.method=='POST':
-        req = request.form
-        
-        ownersname = req["ownersName"]
-        ownersemail = req["ownersEmail"]
-        ownersphoneno = req["ownersPhoneNumber"]
-        petname = req["petName"]
-        petcolor = req["petColor"]
-        pettype = req["petType"]
-        gender = req["gender"]
-        petage = req["petAge"]
-        
-        mongo.db.missingPets.insert_one({"Owner's Name": ownersname, "Owner's Email": ownersemail, "Owner's Phone Number": ownersphoneno, "Pet Name": petname, "Pet Color": petcolor, "Pet Type": pettype, "Gender": gender, "Pet Age": petage})
-        
-        flash("Record Added Successfully!", "success")
-        return redirect(url_for("add_missing_pet"))
-        
-    return render_template("public/add_missing_pet.html")
-
-@app.route("/all-pets-found")
-@login_required
-def all_pets_found():
-    return render_template("public/all_pets_found.html")
-
-@app.route("/lecturers-profile")
-@login_required
-def lecturers_profile():
-    return render_template("public/lecturers_profile.html")
+def query_datawh():
+    return render_template("public/query.html")
 
 @app.route("/student-profile")
 @login_required
@@ -117,13 +96,13 @@ def student_profile():
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].upper() in app.config["ALLOWED_EXTENSIONS"]
 
-@app.route('/upload-pet-image', methods=["GET", "POST"])
+@app.route('/file_uploads', methods=["GET", "POST"])
 @login_required
-def upload_pet_image():
+def file_uploads():
     if request.method=='POST':
         if 'file' not in request.files:
             flash("No file part!", 'warning')
-            return render_template("public/upload_pet_image.html")
+            return render_template("public/users_portal.html")
         file = request.files['file']
         if file.filename=='':
             flash("No selected file, please select a file", 'warning')
@@ -132,11 +111,11 @@ def upload_pet_image():
             filename = secure_filename(file.filename)   
             file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             flash("File uploaded successfully", 'success')
-            return render_template("public/upload_pet_image.html")
-    return render_template("public/upload_pet_image.html")
+            return render_template("public/users_portal.html")
+    return render_template("public/users_portal.html")
 
 @app.route("/sign-up", methods=["GET", "POST"])
-@login_required
+# @login_required
 def sign_up():
     if request.method=='POST':
         req = request.form
@@ -203,7 +182,7 @@ def login():
             
             else:
                 flash("Logged in Successfully! Welcome to your Dashboard!!", "success")
-                return redirect(url_for("students_dashboard"))
+                return redirect(url_for("users_dashboard"))
     
     return render_template("public/index.html")
 
@@ -271,3 +250,7 @@ def change_password():
         return redirect(url_for("student_profile"))
     
     return render_template("public/student_profile.html")
+
+def send_notification(subject, recipients, body):
+    msg = Message(subject, recipients=recipients, body=body)
+    mail.send(msg)
